@@ -4,7 +4,7 @@ import * as userRepository from "../repositories/userRepository.js"
 import config from "../config.js"
 import Cryptr from "cryptr"
 
-const cryptr = new Cryptr(config.secretKey)
+const cryptr = new Cryptr(config.secretCryptr)
 
 export default class userService{
     async register({email ,password}: UserInsertData){
