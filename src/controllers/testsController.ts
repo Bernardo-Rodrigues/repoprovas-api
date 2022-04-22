@@ -8,3 +8,9 @@ export async function getByDiscipline(req: Request, res: Response){
 
     res.send(tests)
 }
+
+export async function getByTeacher(req: Request, res: Response){
+    const tests = await service.getByTeacher()
+
+    res.send(tests)
+}
