@@ -19,6 +19,16 @@ export async function findByUserId(userId:  number ){
     return session
 }
 
+export async function findByToken(token:  string ){
+    const session = await client.session.findFirst({
+        where: {
+            token
+        }
+    })
+
+    return session
+}
+
 export async function remove(id: number){
     await client.session.delete({
         where: {

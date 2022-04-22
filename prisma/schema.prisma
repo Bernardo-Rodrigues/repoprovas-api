@@ -70,7 +70,7 @@ model Teacher {
 	id Int @id @default(autoincrement())
 	name String @unique
 
-  disciplines TeacherDiscipline[]
+  teachersDisciplines TeacherDiscipline[]
 
   @@map("teachers")
 }
@@ -82,7 +82,7 @@ model Discipline {
 
   term Term @relation(fields: [termId], references: [id])
 
-  teacher TeacherDiscipline[]
+  teachersDisciplines TeacherDiscipline[]
 
   @@map("disciplines")
 }

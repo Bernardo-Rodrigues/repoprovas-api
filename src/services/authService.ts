@@ -13,6 +13,7 @@ export default class authService{
         const user = await userRepository.findByEmail(email)
 
         if(!user || cryptr.decrypt(user.password) !== password) throw new Unauthorized("User does not exist");
+        
         const session = await sessionRepository.findByUserId(user.id);
         
         if(session){

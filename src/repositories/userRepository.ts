@@ -10,7 +10,7 @@ export async function create(user: UserInsertData){
 }
 
 export async function findByEmail(email:  string ){
-    const user = await client.user.findFirst({
+    const user = await client.user.findUnique({
         where: {
             email
         }
