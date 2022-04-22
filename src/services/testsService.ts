@@ -2,7 +2,7 @@ import * as testsRepository from "../repositories/testsRepository.js"
 
 export default class testService{
     async getByDiscipline(){
-        const tests = await testsRepository.list()
+        const tests = await testsRepository.listByDiscipline()
 
         const formatedTests = tests.map( term => ({
             number: term.number,
@@ -15,6 +15,22 @@ export default class testService{
                         category: test.category.name
                     }))
                 }))
+            }))
+        }))
+
+        return formatedTests
+    }   
+    async getByTeacher(){
+        const tests = await testsRepository.listByTeacher()
+
+        const formatedTests = tests.map( teacher => ({
+            name: teacher.name,
+            disciplines: teacher.teachersDisciplines.map( teacherDicipline => ({
+                    name: teacherDicipline.discipline.name,
+                    tests: teacherDicipline.tests.map( test => ({
+                        name: test.name,
+                        category: test.category.name
+                    }))
             }))
         }))
 
