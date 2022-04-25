@@ -1,63 +1,29 @@
 import { client } from "../database.js";
 
-export async function listByDiscipline(){
-    const tests = await client.term.findMany({
-        select:{
-            number: true,
-            disciplines:{
-                select:{
-                    name: true,
-                    teachersDisciplines:{
-                        select:{
-                            tests:{
-                                select:{
-                                    name: true,
-                                    category:{
-                                        select:{
-                                            name: true
-                                        }
-                                    }
-                                }
-                            },
-                            teacher:{
-                                select:{
-                                    name:true
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-        },
-    })
-
-    return tests;
-}
-
-export async function listByTeacher(){
-    const tests = await client.teacher.findMany({
+export async function list(){
+    const tests = await client.test.findMany({
         select:{
             name: true,
-            teachersDisciplines:{
+            category:{
                 select:{
-                    discipline:{
-                        select: {
+                    name: true
+                }
+            },
+            teacherDiscipline:{
+                select:{
+                    teacher:{
+                        select:{
                             name: true
                         }
                     },
-                    tests:{
+                    discipline:{
                         select:{
-                            name: true,
-                            category:{
-                                select:{
-                                    name: true
-                                }
-                            }
+                            name: true
                         }
                     }
-                }     
-            },
-        },
+                }
+            }
+        }
     })
 
     return tests;
