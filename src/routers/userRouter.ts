@@ -5,6 +5,7 @@ import * as controller from "../controllers/userController.js"
 
 const userRouter = Router();
 
-userRouter.post('/sign-up', validateSchemaMiddleware(userSchema), controller.register)
+userRouter.post('/users/sign-up', validateSchemaMiddleware(userSchema), controller.register)
+userRouter.post('/users/sign-in', validateSchemaMiddleware(userSchema), controller.login)
 
 export default userRouter;  

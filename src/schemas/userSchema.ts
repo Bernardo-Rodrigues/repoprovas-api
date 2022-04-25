@@ -1,7 +1,7 @@
-import { User } from ".prisma/client";
 import joi from "joi";
+import { UserInsertData } from "../repositories/userRepository";
 
-const userSchema = joi.object<Omit<User,'id'>>({
+const userSchema = joi.object<UserInsertData>({
     email: joi.string().email().required(),
     password: joi.string().required()
 });

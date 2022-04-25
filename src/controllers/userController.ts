@@ -11,3 +11,11 @@ export async function register(req: Request, res: Response){
 
     res.sendStatus(201)
 }
+
+export async function login(req: Request, res: Response){
+    const userData: UserInsertData = req.body
+
+    const token = await service.login(userData)
+
+    res.send(token)
+}
