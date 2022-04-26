@@ -4,13 +4,17 @@ import testService from "../services/testsService.js"
 const service = new testService()
 
 export async function getByDiscipline(req: Request, res: Response){
-    const tests = await service.getByDisciplines()
+    const disciplineId = parseInt(req.params.id)
+
+    const tests = await service.getByDisciplines(disciplineId)
 
     res.send(tests)
 }
 
 export async function getByTeacher(req: Request, res: Response){
-    const tests = await service.getByTeachers()
+    const teacherId = parseInt(req.params.id)
+
+    const tests = await service.getByTeachers(teacherId)
 
     res.send(tests)
 }
