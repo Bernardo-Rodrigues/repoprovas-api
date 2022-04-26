@@ -1,0 +1,12 @@
+import { Request, Response } from "express"
+import DisciplineService from "../services/disciplineService.js"
+
+const service = new DisciplineService()
+
+export async function getByTerm(req: Request, res: Response){
+    const diciplineId = parseInt(req.params.id)
+
+    const disciplines = await service.getByTerm(diciplineId)
+
+    res.send(disciplines)
+}
