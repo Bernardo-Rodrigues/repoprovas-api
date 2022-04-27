@@ -3,7 +3,10 @@ import { client } from "../database.js";
 export async function listByDiscipline(disciplineId: number){
     const tests = await client.test.findMany({
         select:{
+            id: true,
             name: true,
+            pdfUrl: true,
+            views: true,
             category:{
                 select:{
                     name: true
@@ -23,7 +26,7 @@ export async function listByDiscipline(disciplineId: number){
             teacherDiscipline:{
                 disciplineId
             }
-        }
+        },
     })
 
     return tests;
@@ -32,7 +35,10 @@ export async function listByDiscipline(disciplineId: number){
 export async function listByTeacher(teacherId: number){
     const tests = await client.test.findMany({
         select:{
+            id: true,
             name: true,
+            pdfUrl: true,
+            views: true,
             category:{
                 select:{
                     name: true
@@ -51,6 +57,21 @@ export async function listByTeacher(teacherId: number){
         where:{
             teacherDiscipline:{
                 teacherId
+            }
+        }
+    })
+
+    return tests;
+}
+
+export async function updateViews(testId: number){
+    const tests = await client.test.update({
+        where:{
+            id: testId
+        },
+        data: {
+            views: {
+                increment: 1
             }
         }
     })

@@ -18,3 +18,11 @@ export async function getByTeacher(req: Request, res: Response){
 
     res.send(tests)
 }
+
+export async function updateViews(req: Request, res: Response){
+    const testId = parseInt(req.params.id)
+
+    await service.updateViews(testId)
+
+    res.sendStatus(200)
+}

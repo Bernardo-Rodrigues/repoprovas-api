@@ -6,5 +6,6 @@ const testsRouter = Router();
 
 testsRouter.get('/tests/disciplines/:id', validateTokenMiddleware, controller.getByDiscipline)
 testsRouter.get('/tests/teachers/:id', validateTokenMiddleware, controller.getByTeacher)
+testsRouter.patch('/tests/:id/view', validateTokenMiddleware, controller.updateViews)
 
 export default testsRouter;  
