@@ -15,6 +15,10 @@ describe("POST /users/sign-up", () => {
     const response = await agent.post("/users/sign-up").send({ email: user.email, password: user.password });
     expect(response.status).toBe(409);
   });
+  it("should answer with status 422 given a invalid body", async () => {
+    const response = await agent.post("/users/sign-up").send();
+    expect(response.status).toBe(422);
+  });
 });
 
 describe("POST /users/sign-in", () => {
@@ -28,5 +32,9 @@ describe("POST /users/sign-in", () => {
     const body = await user();
     const response = await agent.post("/users/sign-in").send(body);
     expect(response.status).toBe(401);
+  });
+  it("should answer with status 422 given a invalid body", async () => {
+    const response = await agent.post("/users/sign-in").send();
+    expect(response.status).toBe(422);
   });
 });
