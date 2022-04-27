@@ -12,4 +12,8 @@ export default class testService{
 
         return tests
     }   
+    
+    async updateViews(testId: number){
+        await testsRepository.updateViews(testId)
+    }
 }

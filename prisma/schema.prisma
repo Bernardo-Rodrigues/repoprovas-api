@@ -8,6 +8,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("HEROKU_POSTGRESQL_PUCE_URL")
 }
 
 model User {
@@ -44,6 +45,7 @@ model Test {
 	id Int @id @default(autoincrement())
 	name String
 	pdfUrl String
+  views Int @default(0)
   categoryId Int
   teacherDisciplineId Int
 
