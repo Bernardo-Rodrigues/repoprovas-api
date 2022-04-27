@@ -4,7 +4,9 @@ import teacherService from "../services/teacherService.js"
 const service = new teacherService()
 
 export async function getAll(req: Request, res: Response){
-    const teachers = await service.getAll()
+    const search = req.query.search as string
+    
+    const teachers = await service.getAll(search)
 
     res.send(teachers)
 }
