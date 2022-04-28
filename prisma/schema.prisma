@@ -15,22 +15,9 @@ model User {
 	id Int @id @default(autoincrement())
 	email String @unique
 	password String
-  
-  session Session?
 
   @@map("users")
 }
-
-model Session {
-	id Int @id @default(autoincrement())
-	userId Int @unique
-  token String
-
-  user User @relation(fields: [userId], references: [id])
-
-  @@map("sessions")
-}
-
 
 model Category {
 	id Int @id @default(autoincrement())

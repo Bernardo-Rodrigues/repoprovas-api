@@ -78,3 +78,12 @@ export async function updateViews(testId: number){
 
     return tests;
 }
+
+export async function create(test: any){
+    console.log(test)
+    const tests = await client.test.create({
+        data: test
+    })
+
+    return tests;
+}

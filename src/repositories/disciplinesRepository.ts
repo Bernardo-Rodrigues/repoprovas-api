@@ -1,7 +1,13 @@
 import { client } from "../database.js";
 
+export async function list(){
+    const disciplines = await client.discipline.findMany()
+
+    return disciplines;
+}
+
 export async function listByTerm(termId: number, search:string){
-    const tests = await client.discipline.findMany({
+    const disciplines = await client.discipline.findMany({
         where:{
             termId,
             name: {
@@ -11,5 +17,5 @@ export async function listByTerm(termId: number, search:string){
         }
     })
 
-    return tests;
+    return disciplines;
 }
