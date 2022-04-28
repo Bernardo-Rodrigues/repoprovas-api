@@ -10,3 +10,12 @@ export async function getAll(req: Request, res: Response){
 
     res.send(teachers)
 }
+
+export async function getByDiscipline(req: Request, res: Response){
+    const disciplineName = req.params.name
+    
+    const teachers = await service.getByDiscipline(disciplineName)
+
+    res.send(teachers)
+}
+

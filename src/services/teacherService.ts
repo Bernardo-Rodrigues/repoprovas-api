@@ -6,4 +6,9 @@ export default class teacherService{
 
         return teachers
     }   
+    async getByDiscipline(disciplineName: string){
+        const teachers = await teacherRepository.listByDiscipline(disciplineName)
+
+        return teachers
+    }   
 }
