@@ -2,31 +2,22 @@ import { faker } from "@faker-js/faker"
 import Cryptr from "cryptr"
 import config from "../../src/config";
 import { client } from "../../src/database";
+import { UserInsertData } from "../../src/repositories/userRepository";
 
 const cryptr = new Cryptr(config.secretCryptr)
 
-export async function createdUser () {
-  const user = {
-    email: faker.internet.email(),
-    password: "123456",
-    encryptedPassword: cryptr.encrypt("123456")
-  };
-
+export async function insertUser (user: UserInsertData) {
   await client.user.create({
 		data: {
 			email: user.email,
-			password: cryptr.encrypt("123456")
+			password: cryptr.encrypt(user.password)
 		}
 	});
-
-  return user;
 } 
 
-export async function user () {
-  const user = {
+export async function createUser () {
+  return {
     email: faker.internet.email(),
-    password: "123456"
+    password: faker.internet.password()
   }
-
-  return user;
 } 
