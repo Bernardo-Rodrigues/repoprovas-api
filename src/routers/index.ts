@@ -1,4 +1,5 @@
 import { Router } from "express";
+import categoriesRouter from "./categoriesRouter.js";
 import disciplineRouter from "./disciplinesRouter.js";
 import teachersRouter from "./teachersRouter.js";
 import termsRouter from "./termsRouter.js";
@@ -12,5 +13,6 @@ router.use(testsRouter);
 router.use(disciplineRouter);
 router.use(teachersRouter);
 router.use(termsRouter);
+router.use(categoriesRouter);
 
 export default router;  
