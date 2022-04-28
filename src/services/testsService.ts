@@ -1,6 +1,7 @@
 import * as testsRepository from "../repositories/testsRepository.js"
 import * as categoriesRepository from "../repositories/categoriesRepository.js"
 import * as teacherDisciplineRepository from "../repositories/teacherDisciplineRepository.js"
+import { NotFound, BadRequest } from "../errors/index.js"
 
 export default class testService{
     async getByDisciplines(disciplineId: number){
@@ -20,13 +21,15 @@ export default class testService{
     }
 
     async create(test: any){
-        const categoryId = (await categoriesRepository.find(test.category)).id
-        const teacherDisciplineId = (await teacherDisciplineRepository.find(test.teacher, test.discipline)).id
+        const category = await categoriesRepository.find(test.category)
+        if(!category) throw new NotFound("Categoria não existe")
+        const teacherDiscipline = await teacherDisciplineRepository.find(test.teacher, test.discipline)
+        if(!teacherDiscipline) throw new BadRequest("Disciplina e professor não combinam")
 
         delete test.category
         delete test.teacher
         delete test.discipline
 
-        await testsRepository.create({...test, categoryId, teacherDisciplineId})
+        await testsRepository.create({...test, categoryId: category.id, teacherDiscipline: teacherDiscipline.id})
     }
 }
