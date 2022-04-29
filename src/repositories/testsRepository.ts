@@ -80,10 +80,19 @@ export async function updateViews(testId: number){
 }
 
 export async function create(test: any){
-    console.log(test)
     const tests = await client.test.create({
         data: test
     })
 
     return tests;
+}
+
+export async function find(testId: any){
+    const test = await client.test.findUnique({
+        where:{
+            id: testId
+        }
+    })
+
+    return test;
 }

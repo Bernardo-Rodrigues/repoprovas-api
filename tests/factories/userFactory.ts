@@ -15,7 +15,7 @@ export async function insertUser (user: UserInsertData) {
 	});
 } 
 
-export async function createUser () {
+export function createUser () {
   return {
     email: faker.internet.email(),
     password: faker.internet.password()

@@ -19,3 +19,34 @@ export async function listByTerm(termId: number, search:string){
 
     return disciplines;
 }
+
+export async function listTeachersByDiscipline(disciplineName:string){
+    const teachers = await client.discipline.findMany({
+        select:{
+            teachersDisciplines:{
+                select:{
+                    teacher:{
+                        select:{
+                            name: true
+                        }
+                    }
+                }
+            }
+        },
+        where:{
+            name: disciplineName
+        }
+    })
+
+    return teachers;
+}
+
+export async function find(disciplineId: any){
+    const test = await client.discipline.findUnique({
+        where:{
+            id: disciplineId
+        }
+    })
+
+    return test;
+}
