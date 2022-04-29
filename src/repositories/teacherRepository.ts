@@ -13,42 +13,12 @@ export async function list(search:string){
     return teachers;
 }
 
-// export async function listByDiscipline(disciplineName:string){
-//     const teachers = await client.teacher.findMany({
-//         select:{
-//             name: true,
-//             teachersDisciplines:{
-//                 select:{
-//                     discipline: {
-//                         select:{
-//                             name: true
-//                         }
-//                     }
-//                 }
-//             }
-//         },
-//     })
-
-//     return teachers;
-// }
-
-export async function listByDiscipline(disciplineName:string){
-    const teachers = await client.discipline.findMany({
-        select:{
-            teachersDisciplines:{
-                select:{
-                    teacher:{
-                        select:{
-                            name: true
-                        }
-                    }
-                }
-            }
-        },
+export async function find(teacherId: any){
+    const test = await client.teacher.findUnique({
         where:{
-            name: disciplineName
+            id: teacherId
         }
     })
 
-    return teachers;
+    return test;
 }

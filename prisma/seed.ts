@@ -1,35 +1,37 @@
+import { Category, Discipline, Teacher, TeacherDiscipline, Term, Test } from ".prisma/client"
 import { client } from "../src/database"
+import { faker } from "@faker-js/faker"
 
 export default async function seed(){
-    const term = await client.term.upsert({
+    const term: Term = await client.term.upsert({
         where:{
-            number: 1
+            number: faker.datatype.number()
         },
         update: {},
         create:{
-            number: 1
+            number: faker.datatype.number()
         }
     })
-    const teacher = await client.teacher.upsert({
+    const teacher: Teacher = await client.teacher.upsert({
         where:{
-            name: 'test'
+            name: faker.lorem.word()
         },
         update: {},
         create:{
-            name: 'test'
+            name: faker.lorem.word()
         }
     })
-    const discipline = await client.discipline.upsert({
+    const discipline: Discipline = await client.discipline.upsert({
         where:{
-            name: 'test'
+            name: faker.lorem.word()
         },
         update: {},
         create:{
-            name: 'test',
+            name: faker.lorem.word(),
             termId:term.id
         }
     })
-    await client.teacherDiscipline.upsert({
+    const teacherDiscipline: TeacherDiscipline = await client.teacherDiscipline.upsert({
         where:{
             id:1
         },
@@ -39,5 +41,35 @@ export default async function seed(){
             teacherId: teacher.id
         }
     })
+    const category: Category = await client.category.upsert({
+        where:{
+            name: faker.lorem.word()
+        },
+        update: {},
+        create:{
+            name: faker.lorem.word()
+        }
+    })
+    const test: Test = await client.test.upsert({
+        where:{
+            id: faker.datatype.number()
+        },
+        update: {},
+        create:{
+            name: faker.lorem.word(),
+            pdfUrl: faker.internet.url(),
+            categoryId: category.id,
+            teacherDisciplineId: teacherDiscipline.id
+        }
+    })
+
+    return {
+        term,
+        teacher,
+        discipline,
+        teacherDiscipline,
+        category,
+        test
+    }
 }
 

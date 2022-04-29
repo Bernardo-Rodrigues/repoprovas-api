@@ -1,22 +1,31 @@
 import * as testsRepository from "../repositories/testsRepository.js"
 import * as categoriesRepository from "../repositories/categoriesRepository.js"
 import * as teacherDisciplineRepository from "../repositories/teacherDisciplineRepository.js"
+import * as teacherRepository from "../repositories/teacherRepository.js"
+import * as disciplinesRepository from "../repositories/disciplinesRepository.js"
 import { NotFound, BadRequest } from "../errors/index.js"
 
 export default class testService{
     async getByDisciplines(disciplineId: number){
+        const discipline = await disciplinesRepository.find(disciplineId)
+        if(!discipline) throw new NotFound("Disciplina não encontrada")
+
         const tests = await testsRepository.listByDiscipline(disciplineId)
 
         return tests
     }   
 
     async getByTeachers(teacherId: number){
+
         const tests = await testsRepository.listByTeacher(teacherId)
 
         return tests
     }   
     
     async updateViews(testId: number){
+        const test = await testsRepository.find(testId)
+        if(!test) throw new NotFound("Prova não encontrada")
+        
         await testsRepository.updateViews(testId)
     }
 
@@ -30,6 +39,6 @@ export default class testService{
         delete test.teacher
         delete test.discipline
 
-        await testsRepository.create({...test, categoryId: category.id, teacherDiscipline: teacherDiscipline.id})
+        await testsRepository.create({...test, categoryId: category.id, teacherDisciplineId: teacherDiscipline.id})
     }
 }
