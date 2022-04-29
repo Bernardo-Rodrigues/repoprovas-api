@@ -9,8 +9,11 @@ const agent = supertest(app);
 
 describe("GET /terms", () => {
     afterAll(disconnect);
-    beforeEach(truncateTerms)
-    beforeEach(runSeed)
+    beforeEach( async () => {
+        await client.$executeRaw`TRUNCATE TABLE terms CASCADE;`;
+        await client.$executeRaw`TRUNCATE TABLE teachers CASCADE;`;
+        await seed();
+    })
 
     it("should answer with status 401 given a non existing token", async () => {
         const response = await agent.get("/terms");
@@ -40,12 +43,5 @@ describe("GET /terms", () => {
 async function disconnect() {
     await client.$disconnect();
 }
-
-async function runSeed() {
-    await seed();
-}
-
-async function truncateTerms() {
-    await client.$executeRaw`TRUNCATE TABLE terms CASCADE;`;
-}
+  
   
