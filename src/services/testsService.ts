@@ -16,6 +16,8 @@ export default class testService{
     }   
 
     async getByTeachers(teacherId: number){
+        const teacher = await teacherRepository.find(teacherId)
+        if(!teacher) throw new NotFound("Professor não encontrado")
 
         const tests = await testsRepository.listByTeacher(teacherId)
 
