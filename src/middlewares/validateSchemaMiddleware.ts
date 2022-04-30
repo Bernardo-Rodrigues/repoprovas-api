@@ -1,7 +1,7 @@
 import joi from "joi"
 import { NextFunction, Request, Response } from "express"
 import { stripHtml } from "string-strip-html"
-import { UnprocessableEntity } from "../errors/index.js"
+import { unprocessableEntity } from "../errors/index.js"
 
 function sanitizeString(string: string){
     return stripHtml(string).result.trim();
@@ -16,7 +16,7 @@ export default function validateSchemaMiddleware(schema: joi.ObjectSchema){
         });
 
         const validation = schema.validate(body, { abortEarly: false });
-        if(validation.error) throw new UnprocessableEntity(validation.error.message);
+        if(validation.error) throw unprocessableEntity(validation.error.message);
 
         next();
     };

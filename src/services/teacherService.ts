@@ -1,6 +1,6 @@
 import * as teacherRepository from "../repositories/teacherRepository.js"
 import * as disciplinesRepository from "../repositories/disciplinesRepository.js"
-import NotFound from "../errors/NotFoundError.js"
+import { notFound } from "../errors/index.js"
 
 export default class teacherService{
     async getAll(search: string){
@@ -11,7 +11,7 @@ export default class teacherService{
 
     async getByDiscipline(disciplineName: string){
         const teachers = await disciplinesRepository.listTeachersByDiscipline(disciplineName)
-        if(!teachers.length) throw new NotFound("Essa disciplina não existe")
+        if(!teachers.length) throw notFound("Essa disciplina não existe")
 
         return teachers
     }   

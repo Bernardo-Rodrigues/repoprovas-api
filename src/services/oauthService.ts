@@ -1,9 +1,6 @@
-import NotFound from "../errors/NotFoundError.js"
 import * as userRepository from "../repositories/userRepository.js"
-import disciplineRouter from "../routers/disciplinesRouter.js"
 import axios from "axios"
 import config from "../config.js"
-import Conflict from "../errors/ConflictError.js"
 import jwt from "jsonwebtoken"
 
 export default class oauthService{

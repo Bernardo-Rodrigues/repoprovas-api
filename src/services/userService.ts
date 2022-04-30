@@ -1,4 +1,4 @@
-import { Conflict, Unauthorized } from "../errors/index.js";
+import { conflict, unauthorized } from "../errors/index.js";
 import { UserInsertData } from "../repositories/userRepository.js";
 import * as userRepository from "../repositories/userRepository.js"
 import jwt from "jsonwebtoken"
@@ -14,7 +14,7 @@ export default class userService{
         const user = await userRepository.findByEmail(email)
         if(user) {
             if(!user.password) await userRepository.update({...user, password: encryptedPassword})
-            else throw new Conflict("User already registered");
+            else throw conflict("User already registered");
         }else{
             await userRepository.create({email, password: encryptedPassword})
         }
@@ -24,7 +24,7 @@ export default class userService{
     async login({email ,password}: UserInsertData){
         const user = await userRepository.findByEmail(email)
 
-        if(!user || !user.password || cryptr.decrypt(user.password) !== password) throw new Unauthorized("User does not exist");
+        if(!user || !user.password || cryptr.decrypt(user.password) !== password) throw unauthorized("User does not exist");
 
         const jwtConfiguration = { expiresIn: 60*60 };
         const jwtData = { userId: user.id };
