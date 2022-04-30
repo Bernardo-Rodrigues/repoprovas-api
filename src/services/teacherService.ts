@@ -10,9 +10,14 @@ export default class teacherService{
     }   
 
     async getByDiscipline(disciplineName: string){
+        await this.#validateDiscipline(disciplineName)
         const teachers = await disciplinesRepository.listTeachersByDiscipline(disciplineName)
-        if(!teachers.length) throw notFound("Essa disciplina não existe")
 
         return teachers
     }   
+
+    async #validateDiscipline(disciplineName: string){
+        const discipline = await disciplinesRepository.findByName(disciplineName)
+        if(!discipline) throw notFound("Essa disciplina não existe")
+    }
 }

@@ -4,9 +4,11 @@ import { client } from "../database.js";
 export type UserInsertData = Partial<Omit<User, 'id'>>
 
 export async function create(user: any){
-    await client.user.create({
+    const createdUser = await client.user.create({
         data: user
     })
+
+    return createdUser
 }
 
 export async function update(user: any){

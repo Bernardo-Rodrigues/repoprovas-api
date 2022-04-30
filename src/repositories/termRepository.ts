@@ -5,3 +5,13 @@ export async function list(){
 
     return terms;
 }
+
+export async function find(id: number){
+    const term = await client.term.findUnique({
+        where:{
+            id
+        }
+    })
+
+    return term;
+}
