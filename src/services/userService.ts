@@ -9,18 +9,22 @@ const cryptr = new Cryptr(config.secretCryptr)
 
 export default class userService{
     async register({email ,password}: UserInsertData){
-        const user = await userRepository.findByEmail(email)
-        if(user) throw new Conflict("User already registered");
-
         const encryptedPassword = cryptr.encrypt(password)
 
-        await userRepository.create({email, password: encryptedPassword})
+        const user = await userRepository.findByEmail(email)
+        if(user) {
+            if(!user.password) await userRepository.update({...user, password: encryptedPassword})
+            else throw new Conflict("User already registered");
+        }else{
+            await userRepository.create({email, password: encryptedPassword})
+        }
+
     }
     
     async login({email ,password}: UserInsertData){
         const user = await userRepository.findByEmail(email)
 
-        if(!user || cryptr.decrypt(user.password) !== password) throw new Unauthorized("User does not exist");
+        if(!user || !user.password || cryptr.decrypt(user.password) !== password) throw new Unauthorized("User does not exist");
 
         const jwtConfiguration = { expiresIn: 60*60 };
         const jwtData = { userId: user.id };
