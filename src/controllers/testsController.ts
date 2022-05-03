@@ -28,9 +28,10 @@ export async function updateViews(req: Request, res: Response){
 }
 
 export async function create(req: Request, res: Response){
+    const pdf = req.file
     const test = req.body
 
-    await service.create(test)
+    await service.create({...test, pdf})
 
     res.sendStatus(201)
 }

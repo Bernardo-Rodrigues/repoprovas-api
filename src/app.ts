@@ -7,6 +7,7 @@ import router from "./routers/index.js";
 const app = express();
 app.use(json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 app.use(router);
 app.use(errorHandlingMiddleware);
 

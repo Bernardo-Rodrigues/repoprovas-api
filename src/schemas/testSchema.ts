@@ -1,7 +1,7 @@
 import joi from "joi";
 
 const testSchema = joi.object({
-    pdfUrl: joi.string().uri().required(),
+    pdf: joi.object().required(),
     category: joi.string().required(),
     teacher: joi.string().required(),
     discipline: joi.string().required(),

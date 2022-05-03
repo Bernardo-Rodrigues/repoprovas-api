@@ -4,6 +4,7 @@ import * as teacherDisciplineRepository from "../repositories/teacherDisciplineR
 import * as teacherRepository from "../repositories/teacherRepository.js"
 import * as disciplinesRepository from "../repositories/disciplinesRepository.js"
 import { notFound, badRequest } from "../errors/index.js"
+import storageBucket from "../supabase.js"
 
 export default class testService{
     async getByDisciplines(disciplineId: number){
@@ -31,12 +32,32 @@ export default class testService{
     async create(test: any){
         const categoryId = await this.#validateCategory(test.category)
         const teacherDisciplineId = await this.#validateTeacherDiscipline(test.teacher, test.discipline)
+        const pdfUrl = await this.#uploadPdf(test.pdf)
 
         delete test.category
         delete test.teacher
         delete test.discipline
+        delete test.pdf
 
-        await testsRepository.create({...test, categoryId, teacherDisciplineId})
+        await testsRepository.create({...test, categoryId, teacherDisciplineId, pdfUrl})
+    }
+
+    async #uploadPdf(file: any){
+        const fileName = `public/${Date.now()}-${file.originalname}`;
+
+        try {
+            const { data, error } = await storageBucket.upload(fileName, file.buffer, {
+                cacheControl: "3600",
+                upsert: true,
+                contentType: "application/pdf",
+            });
+            
+            const { publicURL } = storageBucket.getPublicUrl(data.Key.replace("repoprovas/", ""));
+            
+            return publicURL;
+        } catch {
+            new Error("Supabase error");
+        }
     }
 
     async #validateDiscipline(disciplineId: number){
