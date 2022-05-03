@@ -1,5 +1,6 @@
 import { Category, Discipline, Teacher, TeacherDiscipline, Term, Test } from ".prisma/client";
 import { faker } from "@faker-js/faker";
+import axios from "axios";
 import jwt from "jsonwebtoken";
 import supertest, { Response } from "supertest";
 import seed from "../prisma/seed.js";
@@ -360,14 +361,20 @@ describe("POST /tests", () => {
         expect(response.body.length).toBeUndefined;
         expect(response.status).toBe(400);
     });
-    it("should answer with status 422 given a invalid body", async () => {
-        const response = await agent.post("/tests").send();
-        expect(response.status).toBe(422);
-      });
     it("should answer with status 201 given a valid body", async () => {
-        const test:any = createTest(seedElements)
+        const test = createTest(seedElements)
+
         const token = jwt.sign({}, config.secretJWT);
-        const response = await agent.post(`/tests`).send(test).set("Authorization", token);
+        
+        const response = await agent
+        .post(`/tests`)
+        .set({"Authorization": token, "Content-Type": "multipart/form-data"})
+        .attach("pdf", test.pdf)
+        .field("name", test.name)
+        .field("category", test.category)
+        .field("teacher", test.teacher)
+        .field("discipline", test.discipline)
+
         const createdTests = await client.test.findMany()
         expect(createdTests.length).toBe(2);
         expect(response.status).toBe(201);

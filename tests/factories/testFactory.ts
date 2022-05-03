@@ -1,5 +1,6 @@
 import { Category, Discipline, Teacher, TeacherDiscipline, Term, Test } from ".prisma/client";
 import { faker } from "@faker-js/faker";
+import path from "path"
 
 interface SeedElements {
     term: Term;
@@ -13,9 +14,9 @@ interface SeedElements {
 export function createTest (seedElements: SeedElements) {
     return {
         name: faker.lorem.words(2),
-        pdfUrl: faker.internet.url(),
         category: seedElements.category.name,
         teacher: seedElements.teacher.name,
-        discipline: seedElements.discipline.name
+        discipline: seedElements.discipline.name,
+        pdf: path.resolve("./tests/factories", "teste.pdf")
     }
 } 

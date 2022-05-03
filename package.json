@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules dotenv -e .env.test jest -i",
+    "test:coverage": "NODE_OPTIONS=--experimental-vm-modules dotenv -e .env.test jest -- --coverage",
     "dev:test": "dotenv -e .env.test nodemon src/server.ts",
     "dev": "nodemon src/server.ts",
     "build": "tsc",
@@ -25,6 +26,7 @@
     "dotenv-cli": "^5.1.0",
     "express": "^4.17.3",
     "express-async-errors": "^3.1.1",
+    "form-data": "^4.0.0",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.4",
