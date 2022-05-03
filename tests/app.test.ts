@@ -154,7 +154,8 @@ describe("GET /teachers/disciplines/:name", () => {
         const token = jwt.sign({}, config.secretJWT);
         const disciplineName = seedElements.discipline.name
         const response = await agent.get(`/teachers/disciplines/${disciplineName}`).set("Authorization", token);
-        responseToValidGet(response)
+        expect(response.body).not. toBeUndefined();
+        expect(response.status).toBe(200);
     });
 });
 
